@@ -4,10 +4,10 @@
   <td class="email-masthead">
     <% if frontend_available? %>
       <%= link_to spree.root_url, class: 'template-label' do %>
-        <%= image_tag Spree::Config.logo, class: 'logo', alt: image_name, title: image_name %>
+        <%= image_tag Spree::Config[:mailer_logo], class: 'logo', alt: image_name, title: image_name %>
       <% end %>
     <% else %>
-      <%= image_tag Spree::Config.logo, class: 'logo', alt: image_name, title: image_name %>
+      <%= image_tag Spree::Config[:mailer_logo], class: 'logo', alt: image_name, title: image_name %>
     <% end %>
   </td>
 </tr>
