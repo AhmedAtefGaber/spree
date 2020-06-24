@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spree
+  labels:
+    app: spree
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spree
+  template:
+    metadata:
+      labels:
+        app: spree
+    spec:
+      containers:
+      - name: spree
+        image: ahmedatefosman/spree
+        ports:
+        - containerPort: 3000
