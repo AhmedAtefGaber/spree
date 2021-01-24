@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: spree
-        image: ahmedatefosman/spree
+        image: node2:5000/spree
         ports:
         - containerPort: 3000

@@ -1,34 +1,27 @@
 pipeline{
 
-	agent any
+	agent { 
+        docker { image "node2:5000/spree-jenkins-agent" 
+                 args '-v /var/run/docker.sock:/var/run/docker.sock -v /etc/hosts:/etc/hosts  -v /home/devops/.kube/config:/home/agent/.kube/config'   
+        	}
+   		}
 
 	stages{
-
-		stage("Git Clone"){
-		steps{
-			git credentialsId: 'ci-cd-repo-credentials', \
-			 url: 'https://github.com/AhmedAtefGaber/spree'
-				}
-		                        }
 		stage("Docker Build"){
-		steps{
-			sh "docker build  -t ahmedatefosman/spree ."
+			steps{
+				sh "docker build  -t node2:5000/spree ."
 			}
-				}
-		stage("Docker Push"){
-		steps{	
-			withCredentials([string(credentialsId: 'docker_pass', \
-                                                        variable: 'docker_pass')]) {
-			sh "docker login -u ahmedatefosman -p ${docker_pass} "
-					}
-			sh "docker push ahmedatefosman/spree"
-			
-			}
-				}
-		stage("Deploy on kubernetes as deplyment and access the app from the service"){
-		steps{
-			sh "kubectl apply -f k8s/"
-		      }	
-  				}
 		}
+		stage("Docker Push"){
+			steps{	
+				sh "docker push node2:5000/spree"
+				
+			}
+		}
+		stage("Deploy to kubernetes"){
+			steps{
+				sh "kubectl apply -f k8s/"
+			}	
+		}
+	}
 }
